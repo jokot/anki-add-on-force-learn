@@ -1,0 +1,9 @@
+{
+  "interval_minutes": 0.25,
+  "snooze_minutes": 0.1,
+  "quiet_hours": {
+    "start": 25,
+    "end": 26
+  },
+  "enabled": true
+}
