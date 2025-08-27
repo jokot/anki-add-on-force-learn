@@ -138,7 +138,7 @@ class ReviewNudger:
                 QGuiApplication.alert(mw, 0)
             except Exception:
                 pass
-            # Windows-specific nudge to the foreground
+            # Windows-specific nudge to the foreground (best effort)
             try:
                 import sys
                 if sys.platform.startswith("win"):
@@ -149,13 +149,14 @@ class ReviewNudger:
                     user32.ShowWindow(hwnd, SW_RESTORE)
                     user32.SetForegroundWindow(hwnd)
             except Exception:
-                # As a last resort, briefly toggle always-on-top to raise, then revert
-                try:
-                    mw.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
-                    mw.show()
-                    _QTimer.singleShot(200, lambda: (mw.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False), mw.show()))
-                except Exception:
-                    pass
+                pass
+            # Ensure on top briefly to defeat focus stealing prevention
+            try:
+                mw.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
+                mw.show()
+                _QTimer.singleShot(400, lambda: (mw.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False), mw.show()))
+            except Exception:
+                pass
         except Exception:
             pass
 
