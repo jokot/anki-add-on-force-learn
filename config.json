@@ -1,9 +1,10 @@
 {
-  "interval_minutes": 0.25,
-  "snooze_minutes": 0.1,
+  "interval_minutes": 22,
+  "snooze_minutes": 10,
   "quiet_hours": {
     "start": 25,
     "end": 26
   },
-  "enabled": true
+  "enabled": true,
+  "target_deck_id": 1755735362304
 }
