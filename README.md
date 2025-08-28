@@ -23,7 +23,6 @@ This addon forces you to review your Anki deck every 30 minutes (configurable) w
 
 - **`test_guide.md`** - Comprehensive manual testing guide
 - **`test_config.py`** - Quick configuration switcher for different test modes
-- **`debug_version.py`** - Debug version with detailed logging
 - **`README.md`** - This file
 
 ## 🛠️ Test Configuration Tool
@@ -46,32 +45,6 @@ python test_config.py disabled
 # Show current configuration
 python test_config.py show
 ```
-
-## 🐛 Debug Mode
-
-For detailed troubleshooting:
-
-1. **Backup your current `__init__.py`:**
-   ```bash
-   copy __init__.py __init__.py.backup
-   ```
-
-2. **Replace with debug version:**
-   ```bash
-   copy debug_version.py __init__.py
-   ```
-
-3. **Restart Anki**
-
-4. **Check debug output:**
-   - Console output in Anki
-   - Log file: `anki_nudger_debug.log`
-   - New menu item: "Forced Review: Show Debug Info"
-
-5. **Restore original when done:**
-   ```bash
-   copy __init__.py.backup __init__.py
-   ```
 
 ## ✅ What to Test
 
@@ -101,7 +74,6 @@ The addon adds these items to the **Tools** menu:
 - **"Forced Review: Toggle Enabled"** - Turn addon on/off
 - **"Forced Review: Snooze 5m"** - Quick snooze
 - **"Forced Review: Reset Today"** - Re-enable after daily disable
-- **"Forced Review: Show Debug Info"** (debug mode only)
 
 ## ⚙️ Configuration Options
 
@@ -124,7 +96,6 @@ The addon adds these items to the **Tools** menu:
 2. Verify configuration is valid JSON
 3. Check if you're in quiet hours
 4. Try "Reset Today" from Tools menu
-5. Use debug mode for detailed logging
 
 ### Console Errors?
 1. Check Anki console: Help → Debug Console
@@ -135,7 +106,6 @@ The addon adds these items to the **Tools** menu:
 ### Performance Issues?
 1. The addon checks every 15 seconds (lightweight)
 2. No impact during normal Anki usage
-3. Debug mode adds logging overhead
 
 ## 📊 Expected Behavior
 
@@ -164,19 +134,12 @@ The addon adds these items to the **Tools** menu:
 - [ ] Test edge cases
 - [ ] Verify persistence across restarts
 
-### Debug Test (when issues occur)
-- [ ] Enable debug mode
-- [ ] Check console output
-- [ ] Review log file
-- [ ] Use "Show Debug Info" menu
-
 ## 💡 Tips
 
 - **Always close Anki completely** when changing configurations
 - **Use fast mode** for quick testing cycles
 - **Check the console** for any error messages
 - **Test with default settings first** if having issues
-- **Use debug mode** when troubleshooting
 
 ## 🔄 Restoring Normal Operation
 
@@ -186,12 +149,6 @@ After testing:
    ```bash
    python test_config.py normal
    ```
-
-2. **If using debug mode, restore original:**
-   ```bash
-   copy __init__.py.backup __init__.py
-   ```
-
-3. **Restart Anki**
+2. **Restart Anki**
 
 Your addon should now work normally with 30-minute intervals!

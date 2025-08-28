@@ -69,7 +69,6 @@ class TestRunner:
             "__init__.py",
             "test_guide.md",
             "test_config.py", 
-            "debug_version.py",
             "README.md",
             "run_tests.py"
         ]
@@ -219,25 +218,6 @@ class TestRunner:
                 )
             except Exception as e:
                 self.test("Read test config", False, f"Error: {e}")
-        
-        # Test debug_version.py
-        debug_version = self.addon_dir / "debug_version.py"
-        if debug_version.exists():
-            try:
-                content = debug_version.read_text(encoding='utf-8')
-                self.test(
-                    "Debug version has logging",
-                    "import logging" in content,
-                    "Debug version missing logging"
-                )
-                
-                self.test(
-                    "Debug version has debug info",
-                    "_show_debug_info" in content,
-                    "Debug version missing debug info function"
-                )
-            except Exception as e:
-                self.test("Read debug version", False, f"Error: {e}")
 
 def main():
     """Main entry point"""
