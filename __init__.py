@@ -9,7 +9,30 @@ from aqt import mw, gui_hooks
 from aqt.utils import tooltip
 from aqt.qt import QTimer, QMessageBox, QAction, qconnect, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QSpinBox, QCheckBox, QPushButton, QComboBox
 
-ADDON_NAME = "Forced Review Every 30m"
+def _format_interval(minutes: float) -> str:
+    """Format interval in a human-readable way"""
+    if minutes < 1:
+        seconds = int(minutes * 60)
+        return f"{seconds}s"
+    elif minutes < 60:
+        if minutes == int(minutes):
+            return f"{int(minutes)}m"
+        else:
+            return f"{minutes:.1f}m"
+    else:
+        hours = minutes / 60
+        if hours == int(hours):
+            return f"{int(hours)}h"
+        else:
+            return f"{hours:.1f}h"
+
+def _get_addon_name() -> str:
+    """Generate addon name with current interval"""
+    cfg = get_cfg()
+    interval_minutes = cfg.get("interval_minutes", 30)
+    interval_display = _format_interval(interval_minutes)
+    return f"Forced Review Every {interval_display}"
+
 DEFAULT_CFG = {
     "interval_minutes": 30,
     "snooze_minutes": 5,
@@ -204,8 +227,6 @@ class ReviewNudger:
                             d = mw.col.decks.get(int(target_id))
                             if d:
                                 did = d.get("id") or d.get("did")
-                                if did:
-                                    mw.col.decks.select(int(did))
                             else:
                                 tooltip("Configured deck not found; using current deck")
                         except Exception:
@@ -231,7 +252,7 @@ class ReviewNudger:
 
     def _open_settings(self):
         dlg = QDialog(mw)
-        dlg.setWindowTitle(f"{ADDON_NAME} Settings")
+        dlg.setWindowTitle(f"{_get_addon_name()} Settings")
 
         v = QVBoxLayout(dlg)
 
@@ -414,7 +435,7 @@ class ReviewNudger:
         self.cfg["enabled"] = not self.cfg.get("enabled", True)
         set_cfg(self.cfg)
         state = "ON" if self.cfg["enabled"] else "OFF"
-        tooltip(f"{ADDON_NAME} {state}")
+        tooltip(f"{_get_addon_name()} {state}")
 
     def _quick_snooze(self):
         self._next_due_ts = time.time() + self._snooze_s()
