@@ -11,7 +11,7 @@ from aqt.qt import QTimer, QMessageBox, QAction, qconnect, QDialog, QVBoxLayout,
 
 ADDON_NAME = "Forced Review Every 30m"
 DEFAULT_CFG = {
-    "interval_minutes": 0.1,
+    "interval_minutes": 30,
     "snooze_minutes": 5,
     "quiet_hours": {"start": 25, "end": 26},  # Never quiet (invalid hours)
     "enabled": True,
@@ -51,10 +51,10 @@ class ReviewNudger:
         self._start_timer()
 
     def _interval_s(self) -> int:
-        return max(60, int(self.cfg.get("interval_minutes", 30)) * 60)
+        return int(self.cfg.get("interval_minutes", 30) * 60)
 
     def _snooze_s(self) -> int:
-        return max(60, int(self.cfg.get("snooze_minutes", 5)) * 60)
+        return int(self.cfg.get("snooze_minutes", 5) * 60)
 
     def _is_quiet_now(self) -> bool:
         q = self.cfg.get("quiet_hours", {"start": 25, "end": 26})
